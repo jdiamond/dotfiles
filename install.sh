@@ -6,6 +6,7 @@ DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 links=(
   "$DOTFILES/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
   "$DOTFILES/nvim"           "$HOME/.config/nvim"
+  "$DOTFILES/yazi"           "$HOME/.config/yazi"
 )
 
 for ((i=0; i<${#links[@]}; i+=2)); do
