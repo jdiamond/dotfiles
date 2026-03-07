@@ -4,59 +4,25 @@ vim.pack.add({
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
 })
 
--- Leader key (must be set before keymaps)
-vim.g.mapleader = " "
-
--- Show line numbers
-vim.opt.number = true
-
--- Show line numbers relative to cursor (helps with jump commands like 5j)
-vim.opt.relativenumber = true
+-- mini.basics: sets sensible defaults (number, wrap, signcolumn, splits, search, etc.)
+-- Sets mapleader = " " if not already set
+-- relnum_in_visual_mode: show relative numbers in visual mode only
+require("mini.basics").setup({
+  autocommands = { relnum_in_visual_mode = true },
+})
 
 -- Use spaces instead of tabs
 vim.opt.expandtab = true
 
--- Number of spaces per indent level
+-- Number of spaces per indent/tab
 vim.opt.shiftwidth = 2
-
--- Number of spaces a tab character appears as
 vim.opt.tabstop = 2
-
--- Automatically indent new lines based on context
-vim.opt.smartindent = true
-
--- Don't wrap long lines
-vim.opt.wrap = false
-
--- Enable 24-bit color (required for most color schemes)
-vim.opt.termguicolors = true
-
--- Always show the sign column (prevents layout shift when diagnostics appear)
-vim.opt.signcolumn = "yes"
 
 -- Faster cursor hold events (used by LSP for hover, diagnostics, etc.)
 vim.opt.updatetime = 250
 
--- Open vertical splits to the right
-vim.opt.splitright = true
-
--- Open horizontal splits below
-vim.opt.splitbelow = true
-
 -- Keep some lines visible above/below cursor when scrolling
 vim.opt.scrolloff = 8
-
--- Ignore case when searching...
-vim.opt.ignorecase = true
-
--- ...unless the search contains uppercase letters
-vim.opt.smartcase = true
-
--- Highlight all search matches as you type
-vim.opt.hlsearch = true
-
--- Show search matches incrementally as you type
-vim.opt.incsearch = true
 
 -- Single global statusline (prevents duplicate statusline from mini.pick)
 vim.opt.laststatus = 3
