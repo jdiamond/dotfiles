@@ -58,6 +58,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- mini.diff: show added/modified/deleted lines in the sign column
+require("mini.diff").setup({
+  view = { style = 'sign' },
+})
+
 -- mini.pick: fuzzy finder for files, buffers, grep, etc.
 require("mini.pick").setup()
 
