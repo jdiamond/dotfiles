@@ -7,6 +7,7 @@ links=(
   "$DOTFILES/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
   "$DOTFILES/nvim"           "$HOME/.config/nvim"
   "$DOTFILES/yazi"           "$HOME/.config/yazi"
+  "$DOTFILES/zsh/zshrc"      "$HOME/.zshrc"
 )
 
 for ((i=0; i<${#links[@]}; i+=2)); do

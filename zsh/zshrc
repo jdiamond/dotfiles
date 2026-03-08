@@ -1,0 +1,70 @@
+# Must be first — many tools below (fzf, starship, zoxide, eza, etc.) are
+# installed by Homebrew and won't be found if this hasn't run yet.
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Initialize the completion system.
+autoload -Uz compinit && compinit
+
+# Case-insensitive completion for arguments/paths.
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Case-insensitive and typo-correction for commands.
+zstyle ':completion:*' completer _complete _correct _approximate
+
+# Enable cycling through completions.
+zstyle ':completion:*' menu select
+
+# Load the terminfo module to get key sequences by name.
+zmodload zsh/terminfo
+
+# Bind Shift-Tab to cycle backwards through completions.
+bindkey "${terminfo[kcbt]}" reverse-menu-complete
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+# Default editor for git commits, command-line prompts, etc.
+export EDITOR=nvim
+
+# Aliases
+alias ..='cd ..'
+alias ...='cd ../..'
+alias -- -='cd -'
+alias lg='lazygit'
+alias ll='eza -al'
+alias lv='NVIM_APPNAME=nvim-lazyvim nvim'
+alias v='nvim'
+alias vc='nvim ~/.config'
+alias vz='nvim ~/.zshrc'
+
+# Wrapper around yazi that changes the shell's cwd to wherever yazi exits in.
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	command yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
+
+# Rust toolchain.
+. "$HOME/.cargo/env"
+
+# Prompt.
+eval "$(starship init zsh)"
+
+# cd replacement with jump history.
+eval "$(zoxide init zsh)"
+
+# Suggests commands as you type based on history.
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Highlights commands in real time (green = valid, red = not found, etc.).
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# bob manages multiple neovim versions.
+export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
+
+export PATH="$HOME/.local/bin:$PATH"
+
+# Load machine-local config (not tracked in git).
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
