@@ -91,6 +91,12 @@ vim.lsp.config('lua_ls', {
 })
 vim.lsp.enable('lua_ls')
 
+vim.lsp.config('bashls', {
+  cmd = { 'bash-language-server', 'start' },
+  filetypes = { 'sh', 'bash' },
+})
+vim.lsp.enable('bashls')
+
 -- LspAttach fires when a language server connects to a buffer.
 -- Keymaps are set here (not globally) so they only apply when LSP is active.
 -- Using <leader>l ("language") namespace keeps LSP actions grouped and leaves
