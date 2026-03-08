@@ -30,6 +30,8 @@ export EDITOR=nvim
 alias ..='cd ..'
 alias ...='cd ../..'
 alias -- -='cd -'
+alias cu='check-updates'
+alias cuu='check-updates --upgrade'
 alias lg='lazygit'
 alias ll='eza -al'
 alias lv='NVIM_APPNAME=nvim-lazyvim nvim'

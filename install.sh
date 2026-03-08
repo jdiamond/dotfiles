@@ -4,10 +4,11 @@ set -e
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 
 links=(
-  "$DOTFILES/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-  "$DOTFILES/nvim"           "$HOME/.config/nvim"
-  "$DOTFILES/yazi"           "$HOME/.config/yazi"
-  "$DOTFILES/zsh/zshrc"      "$HOME/.zshrc"
+  "$DOTFILES/ghostty/config"    "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+  "$DOTFILES/nvim"              "$HOME/.config/nvim"
+  "$DOTFILES/yazi"              "$HOME/.config/yazi"
+  "$DOTFILES/zsh/zshrc"         "$HOME/.zshrc"
+  "$DOTFILES/bin/check-updates" "$HOME/.local/bin/check-updates"
 )
 
 for ((i=0; i<${#links[@]}; i+=2)); do
