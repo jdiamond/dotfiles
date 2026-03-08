@@ -58,6 +58,51 @@ require("mini.pick").setup()
 -- mini.statusline: clean statusline
 require("mini.statusline").setup()
 
+-- LSP
+-- vim.lsp.config() declares the server configuration. vim.lsp.enable() then
+-- watches for matching filetypes and starts the server automatically.
+-- Note: filetypes is required — without it, enable() doesn't know when to attach.
+vim.lsp.config('lua_ls', {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  settings = {
+    Lua = {
+      -- Tell lua_ls we're running LuaJIT (Neovim's Lua runtime)
+      runtime = { version = 'LuaJIT' },
+      workspace = {
+        -- Expose Neovim's runtime files so lua_ls understands vim.* APIs
+        library = vim.api.nvim_get_runtime_file("", true),
+        -- Don't prompt to configure third-party library support
+        checkThirdParty = false,
+      },
+    },
+  },
+})
+vim.lsp.enable('lua_ls')
+
+-- LspAttach fires when a language server connects to a buffer.
+-- Keymaps are set here (not globally) so they only apply when LSP is active.
+-- Using <leader>l ("language") namespace keeps LSP actions grouped and leaves
+-- `gr` free for mini.operators (replace operator) if added later.
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    -- Enable built-in LSP completion for this buffer (autotrigger = no manual <C-x><C-o> needed)
+    vim.lsp.completion.enable(true, ev.data.client_id, ev.buf, { autotrigger = true })
+
+    local b = { buffer = ev.buf }
+    vim.keymap.set('n', 'gd',         vim.lsp.buf.definition,      vim.tbl_extend('force', b, { desc = "Go to definition" }))
+    vim.keymap.set('n', 'K',          vim.lsp.buf.hover,           vim.tbl_extend('force', b, { desc = "Show/focus hover docs" }))
+    vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action,     vim.tbl_extend('force', b, { desc = "Actions" }))
+    vim.keymap.set('n', '<leader>ld', vim.diagnostic.open_float,   vim.tbl_extend('force', b, { desc = "Diagnostic popup" }))
+    vim.keymap.set('n', '<leader>lh', vim.lsp.buf.hover,           vim.tbl_extend('force', b, { desc = "Hover" }))
+    vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation,  vim.tbl_extend('force', b, { desc = "Implementation" }))
+    vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename,          vim.tbl_extend('force', b, { desc = "Rename" }))
+    vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references,      vim.tbl_extend('force', b, { desc = "References" }))
+    vim.keymap.set('n', '<leader>ls', vim.lsp.buf.definition,      vim.tbl_extend('force', b, { desc = "Source definition" }))
+    vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, vim.tbl_extend('force', b, { desc = "Type definition" }))
+  end,
+})
+
 -- Keymaps
 vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" })
@@ -101,6 +146,7 @@ miniclue.setup({
     { mode = "x", keys = "z" },
   },
   clues = {
+    { mode = 'n', keys = '<leader>l', desc = '+LSP' },
     miniclue.gen_clues.builtin_completion(),
     miniclue.gen_clues.g(),
     miniclue.gen_clues.marks(),
