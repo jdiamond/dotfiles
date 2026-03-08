@@ -87,6 +87,10 @@ require("mini.pairs").setup()
 -- mini.files: floating file explorer
 require("mini.files").setup()
 
+-- mini.jump2d: easymotion-style jump to visible spots via label filtering
+-- <CR> to trigger, then type letters to filter down to target
+require("mini.jump2d").setup()
+
 -- LSP
 -- vim.lsp.config() declares the server configuration. vim.lsp.enable() then
 -- watches for matching filetypes and starts the server automatically.
