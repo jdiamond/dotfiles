@@ -116,6 +116,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Keymaps
+vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" })
 vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Grep" })
@@ -158,6 +159,7 @@ miniclue.setup({
     { mode = "x", keys = "z" },
   },
   clues = {
+    { mode = 'n', keys = '<leader>g', desc = '+Git' },
     { mode = 'n', keys = '<leader>l', desc = '+LSP' },
     miniclue.gen_clues.builtin_completion(),
     miniclue.gen_clues.g(),
