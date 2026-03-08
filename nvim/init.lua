@@ -63,11 +63,29 @@ require("mini.diff").setup({
   view = { style = 'sign' },
 })
 
+-- mini.git: git integration (branch status, inline blame, hunk operations)
+require("mini.git").setup()
+
 -- mini.pick: fuzzy finder for files, buffers, grep, etc.
 require("mini.pick").setup()
 
 -- mini.statusline: clean statusline
 require("mini.statusline").setup()
+
+-- mini.ai: extended text objects (viq for quotes, vif for function, etc.)
+require("mini.ai").setup()
+
+-- mini.surround: add/delete/replace surrounding chars (sa", sd", sr"')
+require("mini.surround").setup()
+
+-- mini.comment: treesitter-aware comments (handles JSX {/* */} correctly)
+require("mini.comment").setup()
+
+-- mini.pairs: auto-close brackets and quotes
+require("mini.pairs").setup()
+
+-- mini.files: floating file explorer
+require("mini.files").setup()
 
 -- LSP
 -- vim.lsp.config() declares the server configuration. vim.lsp.enable() then
@@ -126,6 +144,7 @@ vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff
 vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" })
 vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Grep" })
+vim.keymap.set("n", "<leader>e", MiniFiles.open, { desc = "Explorer" })
 
 -- mini.clue: shows a popup of available keybindings after pausing on a prefix
 local miniclue = require("mini.clue")
