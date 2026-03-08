@@ -9,7 +9,8 @@ links=(
   "$DOTFILES/yazi"              "$HOME/.config/yazi"
   "$DOTFILES/zsh/zshrc"         "$HOME/.zshrc"
   "$DOTFILES/bin/check-updates" "$HOME/.local/bin/check-updates"
-  "$DOTFILES/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
+  "$DOTFILES/lazygit/config.yml"   "$HOME/Library/Application Support/lazygit/config.yml"
+  "$DOTFILES/lazygit/themes"       "$HOME/Library/Application Support/lazygit/themes"
 )
 
 for ((i=0; i<${#links[@]}; i+=2)); do

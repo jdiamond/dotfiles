@@ -26,6 +26,9 @@ source <(fzf --zsh)
 # Default editor for git commits, command-line prompts, etc.
 export EDITOR=nvim
 
+# Load lazygit theme then user config (theme first so config can override).
+export LG_CONFIG_FILE="$HOME/Library/Application Support/lazygit/themes/catppuccin-mocha-mauve.yml,$HOME/Library/Application Support/lazygit/config.yml"
+
 # Aliases
 alias ..='cd ..'
 alias ...='cd ../..'
