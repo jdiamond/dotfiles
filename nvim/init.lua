@@ -18,6 +18,9 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 
+-- Single-line border on floating windows (hover, diagnostics, etc.)
+vim.opt.winborder = "single"
+
 -- Sync yank/paste with the OS clipboard
 vim.opt.clipboard = "unnamedplus"
 
