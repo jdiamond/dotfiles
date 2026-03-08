@@ -18,6 +18,9 @@ vim.opt.expandtab = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 
+-- Sync yank/paste with the OS clipboard
+vim.opt.clipboard = "unnamedplus"
+
 -- Faster cursor hold events (used by LSP for hover, diagnostics, etc.)
 vim.opt.updatetime = 250
 
