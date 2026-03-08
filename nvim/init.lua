@@ -64,16 +64,52 @@ vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" }
 vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Grep" })
 
 -- mini.clue: shows a popup of available keybindings after pausing on a prefix
-require("mini.clue").setup({
+local miniclue = require("mini.clue")
+miniclue.setup({
   triggers = {
+    -- Leader key
     { mode = "n", keys = "<leader>" },
+
+    -- `[` and `]` keys
+    { mode = "n", keys = "[" },
+    { mode = "n", keys = "]" },
+
+    -- Built-in completion
+    { mode = "i", keys = "<C-x>" },
+
+    -- `g` key
+    { mode = "n", keys = "g" },
+    { mode = "x", keys = "g" },
+
+    -- Marks
+    { mode = "n", keys = "'" },
+    { mode = "n", keys = "`" },
+    { mode = "x", keys = "'" },
+    { mode = "x", keys = "`" },
+
+    -- Registers
+    { mode = "n", keys = '"' },
+    { mode = "x", keys = '"' },
+    { mode = "i", keys = "<C-r>" },
+    { mode = "c", keys = "<C-r>" },
+
+    -- Window commands
+    { mode = "n", keys = "<C-w>" },
+
+    -- `z` key
+    { mode = "n", keys = "z" },
+    { mode = "x", keys = "z" },
   },
   clues = {
-    { mode = "n", keys = "<leader>q", desc = "Quit" },
-    { mode = "n", keys = "<leader>f", desc = "Find files" },
-    { mode = "n", keys = "<leader>/", desc = "Grep" },
+    miniclue.gen_clues.builtin_completion(),
+    miniclue.gen_clues.g(),
+    miniclue.gen_clues.marks(),
+    miniclue.gen_clues.registers(),
+    miniclue.gen_clues.square_brackets(),
+    miniclue.gen_clues.windows(),
+    miniclue.gen_clues.z(),
   },
   window = {
-    delay = 200, -- milliseconds before popup appears
+    delay = 500, -- milliseconds before popup appears
   },
 })
