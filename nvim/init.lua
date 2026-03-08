@@ -100,10 +100,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', 'K',          vim.lsp.buf.hover,           vim.tbl_extend('force', b, { desc = "Show/focus hover docs" }))
     vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action,     vim.tbl_extend('force', b, { desc = "Actions" }))
     vim.keymap.set('n', '<leader>ld', vim.diagnostic.open_float,   vim.tbl_extend('force', b, { desc = "Diagnostic popup" }))
+    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format,          vim.tbl_extend('force', b, { desc = "Format" }))
     vim.keymap.set('n', '<leader>lh', vim.lsp.buf.hover,           vim.tbl_extend('force', b, { desc = "Hover" }))
     vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation,  vim.tbl_extend('force', b, { desc = "Implementation" }))
-    vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename,          vim.tbl_extend('force', b, { desc = "Rename" }))
     vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references,      vim.tbl_extend('force', b, { desc = "References" }))
+    vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename,          vim.tbl_extend('force', b, { desc = "Rename" }))
     vim.keymap.set('n', '<leader>ls', vim.lsp.buf.definition,      vim.tbl_extend('force', b, { desc = "Source definition" }))
     vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, vim.tbl_extend('force', b, { desc = "Type definition" }))
   end,
