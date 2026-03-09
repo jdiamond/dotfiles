@@ -2,6 +2,7 @@
 vim.pack.add({
   { src = 'https://github.com/echasnovski/mini.nvim' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
 })
 
 -- mini.basics: sets sensible defaults (number, wrap, signcolumn, splits, search, etc.)
@@ -73,7 +74,15 @@ require("mini.pick").setup()
 require("mini.statusline").setup()
 
 -- mini.ai: extended text objects (viq for quotes, vif for function, etc.)
-require("mini.ai").setup()
+-- F = function definition (outer/inner) via treesitter-textobjects queries
+require("mini.ai").setup({
+  custom_textobjects = {
+    F = require("mini.ai").gen_spec.treesitter({
+      a = '@function.outer',
+      i = '@function.inner',
+    }),
+  },
+})
 
 -- mini.surround: add/delete/replace surrounding chars (sa", sd", sr"')
 require("mini.surround").setup()
@@ -144,6 +153,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Keymaps
+
+-- Save position before entering visual mode so <Esc> can restore it
+local visual_start_pos = nil
+local function save_pos_and_enter_visual(key)
+  return function()
+    -- Capture before feedkeys so position is saved before any text object moves the cursor
+    visual_start_pos = vim.api.nvim_win_get_cursor(0)
+    vim.api.nvim_feedkeys(key, 'n', false)
+  end
+end
+local function exit_visual_and_restore_pos()
+  local pos = visual_start_pos
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, false, true), 'n', false)
+  -- Defer restore until after Neovim finishes processing the escape
+  vim.schedule(function()
+    if pos then vim.api.nvim_win_set_cursor(0, pos) end
+  end)
+end
+
+vim.keymap.set('n', 'v',     save_pos_and_enter_visual('v'))
+vim.keymap.set('n', 'V',     save_pos_and_enter_visual('V'))
+vim.keymap.set('n', '<C-V>', save_pos_and_enter_visual(vim.api.nvim_replace_termcodes('<C-V>', true, false, true)))
+vim.keymap.set('x', '<Esc>', exit_visual_and_restore_pos, { silent = true })
+
 vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" })
