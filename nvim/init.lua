@@ -12,6 +12,16 @@ require("mini.basics").setup({
   autocommands = { relnum_in_visual_mode = true },
 })
 
+-- Restore cursor to last position when reopening a file
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(0) then
+      vim.api.nvim_win_set_cursor(0, mark)
+    end
+  end,
+})
+
 -- Use spaces instead of tabs
 vim.opt.expandtab = true
 
