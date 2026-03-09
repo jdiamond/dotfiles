@@ -128,6 +128,12 @@ vim.lsp.config('bashls', {
 })
 vim.lsp.enable('bashls')
 
+vim.lsp.config('ts_ls', {
+  cmd = { 'typescript-language-server', '--stdio' },
+  filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+})
+vim.lsp.enable('ts_ls')
+
 -- LspAttach fires when a language server connects to a buffer.
 -- Keymaps are set here (not globally) so they only apply when LSP is active.
 -- Using <leader>l ("language") namespace keeps LSP actions grouped and leaves
