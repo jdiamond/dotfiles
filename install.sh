@@ -11,6 +11,8 @@ links=(
   "$DOTFILES/bin/check-updates" "$HOME/.local/bin/check-updates"
   "$DOTFILES/lazygit/config.yml"   "$HOME/Library/Application Support/lazygit/config.yml"
   "$DOTFILES/lazygit/themes"       "$HOME/Library/Application Support/lazygit/themes"
+  "$DOTFILES/bat/config"           "$HOME/.config/bat/config"
+  "$DOTFILES/bat/themes"           "$HOME/.config/bat/themes"
 )
 
 for ((i=0; i<${#links[@]}; i+=2)); do
