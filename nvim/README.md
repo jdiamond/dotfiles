@@ -15,6 +15,23 @@
   brew install tree-sitter-cli
   ```
 
+### LSP Servers
+
+- **lua-language-server** — Lua/Neovim config:
+  ```sh
+  brew install lua-language-server
+  ```
+
+- **bash-language-server** — shell scripts (also requires `shellcheck` for diagnostics):
+  ```sh
+  brew install bash-language-server shellcheck
+  ```
+
+- **typescript-language-server** — JavaScript/TypeScript/JSX/TSX:
+  ```sh
+  npm install -g typescript-language-server typescript
+  ```
+
 ## Troubleshooting
 
 ### Treesitter parsers recompiling on every startup
