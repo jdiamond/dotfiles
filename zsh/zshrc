@@ -73,3 +73,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Load machine-local config (not tracked in git).
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+# Load secrets (not tracked in git).
+[[ -f ~/.zshrc.secrets ]] && source ~/.zshrc.secrets
