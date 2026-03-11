@@ -1,1 +1,1 @@
-/Users/jdiamond/dotfiles/AGENTS.md
+AGENTS.md
