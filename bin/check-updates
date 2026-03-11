@@ -13,7 +13,7 @@ ok()     { printf "\033[0;32m%s\033[0m\n" "$1"; }
 # --- Homebrew ---
 header "Homebrew"
 brew update -q
-OUTDATED=$(brew outdated)
+OUTDATED=$(brew outdated --verbose)
 if [[ -z "$OUTDATED" ]]; then
   ok "Everything up to date"
 else
