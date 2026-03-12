@@ -4,6 +4,10 @@
       "rev": "cad365c212fb1e332cb93fa8f72697125799d00a",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
+    "nvim": {
+      "rev": "12c004cde3f36cb1d57242f1e6aac46b09a0e5b4",
+      "src": "https://github.com/catppuccin/nvim"
+    },
     "nvim-treesitter": {
       "rev": "ebe76eb800d4e8df754fc96f8a7b84f578224a97",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"

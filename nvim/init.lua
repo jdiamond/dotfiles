@@ -1,6 +1,7 @@
 -- Plugins
 vim.pack.add({
   { src = 'https://github.com/echasnovski/mini.nvim' },
+  { src = 'https://github.com/catppuccin/nvim' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
 })
@@ -11,6 +12,12 @@ vim.pack.add({
 require("mini.basics").setup({
   autocommands = { relnum_in_visual_mode = true },
 })
+
+-- Catppuccin theme
+require("catppuccin").setup({
+  flavour = "mocha",
+})
+vim.cmd.colorscheme("catppuccin")
 
 -- Restore cursor to last position when reopening a file
 vim.api.nvim_create_autocmd('BufReadPost', {
