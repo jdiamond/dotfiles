@@ -52,3 +52,5 @@
 theme = Catppuccin Mocha
 
 font-family = 0xProto Nerd Font Mono
+
+confirm-close-surface = always
