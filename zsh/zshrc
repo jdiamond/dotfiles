@@ -20,6 +20,11 @@ zmodload zsh/terminfo
 # Bind Shift-Tab to cycle backwards through completions.
 bindkey "${terminfo[kcbt]}" reverse-menu-complete
 
+# Open the current command in $EDITOR with Ctrl+X Ctrl+E.
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^X^E' edit-command-line
+
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
