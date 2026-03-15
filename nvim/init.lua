@@ -213,6 +213,9 @@ vim.keymap.set('n', 'V',     save_pos_and_enter_visual('V'))
 vim.keymap.set('n', '<C-V>', save_pos_and_enter_visual(vim.api.nvim_replace_termcodes('<C-V>', true, false, true)))
 vim.keymap.set('x', '<Esc>', exit_visual_and_restore_pos, { silent = true })
 
+vim.keymap.set("n", "<leader>pu", vim.pack.update,                                      { desc = "Update plugins" })
+vim.keymap.set("n", "<leader>ph", "<cmd>checkhealth vim.pack<CR>",                      { desc = "Health check" })
+
 vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" })
@@ -259,6 +262,7 @@ miniclue.setup({
   clues = {
     { mode = 'n', keys = '<leader>g', desc = '+Git' },
     { mode = 'n', keys = '<leader>l', desc = '+LSP' },
+    { mode = 'n', keys = '<leader>p', desc = '+Pack' },
     miniclue.gen_clues.builtin_completion(),
     miniclue.gen_clues.g(),
     miniclue.gen_clues.marks(),
