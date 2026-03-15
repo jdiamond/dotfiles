@@ -1,3 +1,7 @@
+-- =============================================================================
+-- Bootstrap
+-- =============================================================================
+
 -- Cache compiled Lua modules to speed up startup (improves require() calls by ~30%)
 vim.loader.enable()
 
@@ -11,7 +15,6 @@ vim.api.nvim_create_autocmd('PackChanged', { callback = function(ev)
   end
 end })
 
--- Plugins
 vim.pack.add({
   { src = 'https://github.com/echasnovski/mini.nvim' },
   { src = 'https://github.com/catppuccin/nvim' },
@@ -19,27 +22,15 @@ vim.pack.add({
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
 })
 
+-- =============================================================================
+-- Options
+-- =============================================================================
+
 -- mini.basics: sets sensible defaults (number, wrap, signcolumn, splits, search, etc.)
 -- Sets mapleader = " " if not already set
 -- relnum_in_visual_mode: show relative numbers in visual mode only
 require("mini.basics").setup({
   autocommands = { relnum_in_visual_mode = true },
-})
-
--- Catppuccin theme
-require("catppuccin").setup({
-  flavour = "mocha",
-})
-vim.cmd.colorscheme("catppuccin")
-
--- Restore cursor to last position when reopening a file
-vim.api.nvim_create_autocmd('BufReadPost', {
-  callback = function()
-    local mark = vim.api.nvim_buf_get_mark(0, '"')
-    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(0) then
-      vim.api.nvim_win_set_cursor(0, mark)
-    end
-  end,
 })
 
 -- Use spaces instead of tabs
@@ -67,7 +58,33 @@ vim.opt.laststatus = 3
 -- Start with all folds open (tree-sitter folding would otherwise fold on open)
 vim.opt.foldlevel = 99
 
--- nvim-treesitter: install parsers for languages we use
+-- Restore cursor to last position when reopening a file
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    if mark[1] > 0 and mark[1] <= vim.api.nvim_buf_line_count(0) then
+      vim.api.nvim_win_set_cursor(0, mark)
+    end
+  end,
+})
+
+-- =============================================================================
+-- Colorscheme
+-- =============================================================================
+
+require("catppuccin").setup({
+  flavour = "mocha",
+})
+vim.cmd.colorscheme("catppuccin")
+
+-- mini.statusline: clean statusline
+require("mini.statusline").setup()
+
+-- =============================================================================
+-- Treesitter
+-- =============================================================================
+
+-- Install parsers for languages we use
 -- Parser names don't always match filetypes (e.g. "bash" parser, but "sh" filetype)
 require("nvim-treesitter").install({ "lua", "javascript", "typescript", "rust", "python", "bash", "zsh", "json", "yaml", "markdown" })
 
@@ -89,6 +106,10 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- =============================================================================
+-- Editor
+-- =============================================================================
+
 -- mini.diff: show added/modified/deleted lines in the sign column
 require("mini.diff").setup({
   view = { style = 'sign' },
@@ -99,9 +120,6 @@ require("mini.git").setup()
 
 -- mini.pick: fuzzy finder for files, buffers, grep, etc.
 require("mini.pick").setup()
-
--- mini.statusline: clean statusline
-require("mini.statusline").setup()
 
 -- mini.ai: extended text objects (viq for quotes, vif for function, etc.)
 -- F = function definition (outer/inner) via treesitter-textobjects queries
@@ -130,10 +148,14 @@ require("mini.files").setup()
 -- <CR> to trigger, then type letters to filter down to target
 require("mini.jump2d").setup()
 
+-- =============================================================================
 -- LSP
+-- =============================================================================
+
 -- vim.lsp.config() declares the server configuration. vim.lsp.enable() then
 -- watches for matching filetypes and starts the server automatically.
 -- Note: filetypes is required — without it, enable() doesn't know when to attach.
+
 vim.lsp.config('lua_ls', {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
@@ -188,7 +210,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
+-- =============================================================================
 -- Keymaps
+-- =============================================================================
 
 -- Save position before entering visual mode so <Esc> can restore it
 local visual_start_pos = nil
@@ -213,14 +237,14 @@ vim.keymap.set('n', 'V',     save_pos_and_enter_visual('V'))
 vim.keymap.set('n', '<C-V>', save_pos_and_enter_visual(vim.api.nvim_replace_termcodes('<C-V>', true, false, true)))
 vim.keymap.set('x', '<Esc>', exit_visual_and_restore_pos, { silent = true })
 
-vim.keymap.set("n", "<leader>pu", vim.pack.update,                                      { desc = "Update plugins" })
-vim.keymap.set("n", "<leader>ph", "<cmd>checkhealth vim.pack<CR>",                      { desc = "Health check" })
+vim.keymap.set("n", "<leader>pu", vim.pack.update,                 { desc = "Update plugins" })
+vim.keymap.set("n", "<leader>ph", "<cmd>checkhealth vim.pack<CR>", { desc = "Health check" })
 
 vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
-vim.keymap.set("n", "<leader>q", ":quit<CR>", { desc = "Quit" })
-vim.keymap.set("n", "<leader>f", MiniPick.builtin.files, { desc = "Find files" })
-vim.keymap.set("n", "<leader>/", MiniPick.builtin.grep_live, { desc = "Grep" })
-vim.keymap.set("n", "<leader>e", MiniFiles.open, { desc = "Explorer" })
+vim.keymap.set("n", "<leader>q",  ":quit<CR>",             { desc = "Quit" })
+vim.keymap.set("n", "<leader>f",  MiniPick.builtin.files,  { desc = "Find files" })
+vim.keymap.set("n", "<leader>/",  MiniPick.builtin.grep_live, { desc = "Grep" })
+vim.keymap.set("n", "<leader>e",  MiniFiles.open,          { desc = "Explorer" })
 
 -- mini.clue: shows a popup of available keybindings after pausing on a prefix
 local miniclue = require("mini.clue")
