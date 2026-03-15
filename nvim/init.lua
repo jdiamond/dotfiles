@@ -106,6 +106,11 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- ]] / [[ to jump between functions using treesitter-textobjects
+local tsm = require("nvim-treesitter-textobjects.move")
+vim.keymap.set({'n', 'x', 'o'}, ']]', function() tsm.goto_next_start({ "@class.outer", "@function.outer" }) end)
+vim.keymap.set({'n', 'x', 'o'}, '[[', function() tsm.goto_previous_start({ "@class.outer", "@function.outer" }) end)
+
 -- =============================================================================
 -- Editor
 -- =============================================================================
