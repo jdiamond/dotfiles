@@ -1,6 +1,11 @@
 #!/bin/bash
-# Check for outdated packages across brew, npm (global), and bob.
+# Check for outdated packages across package managers.
 # Usage: check-updates [--upgrade]
+
+# Enable/disable package managers:
+ENABLE_BREW=true
+ENABLE_NPM=true
+ENABLE_BOB=false
 
 UPGRADE=false
 if [[ "$1" == "--upgrade" || "$1" == "-u" ]]; then
@@ -11,21 +16,23 @@ header() { printf "\n\033[1;34m==> %s\033[0m\n" "$1"; }
 ok()     { printf "\033[0;32m%s\033[0m\n" "$1"; }
 
 # --- Homebrew ---
-header "Homebrew"
-brew update -q
-OUTDATED=$(brew outdated --verbose)
-if [[ -z "$OUTDATED" ]]; then
-  ok "Everything up to date"
-else
-  echo "$OUTDATED"
-  if $UPGRADE; then
-    header "Upgrading Homebrew packages"
-    brew upgrade
+if $ENABLE_BREW; then
+  header "Homebrew"
+  brew update -q
+  OUTDATED=$(brew outdated --verbose)
+  if [[ -z "$OUTDATED" ]]; then
+    ok "Everything up to date"
+  else
+    echo "$OUTDATED"
+    if $UPGRADE; then
+      header "Upgrading Homebrew packages"
+      brew upgrade
+    fi
   fi
-fi
+fi # ENABLE_BREW
 
 # --- npm global ---
-if command -v npm &>/dev/null; then
+if $ENABLE_NPM && command -v npm &>/dev/null; then
   header "npm (global)"
   OUTDATED=$(npm outdated -g 2>/dev/null)
   if [[ -z "$OUTDATED" ]]; then
@@ -37,14 +44,14 @@ if command -v npm &>/dev/null; then
       npm update -g
     fi
   fi
-fi
+fi # ENABLE_NPM
 
 # --- bob (Neovim) ---
-if command -v bob &>/dev/null; then
+if $ENABLE_BOB && command -v bob &>/dev/null; then
   header "bob (Neovim)"
   bob list 2>/dev/null
   if $UPGRADE; then
     header "Upgrading Neovim via bob"
     bob update --all
   fi
-fi
+fi # ENABLE_BOB
