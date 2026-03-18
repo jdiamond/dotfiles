@@ -33,6 +33,9 @@ require("mini.basics").setup({
   autocommands = { relnum_in_visual_mode = true },
 })
 
+-- At least 1 sign column (git), expands to 2 when diagnostics also present
+vim.opt.signcolumn = "auto:1-2"
+
 -- Use spaces instead of tabs
 vim.opt.expandtab = true
 
@@ -156,6 +159,20 @@ require("mini.jump2d").setup()
 -- =============================================================================
 -- LSP
 -- =============================================================================
+
+-- Diagnostic signs at lower priority than mini.diff (199) so git signs stay left, diagnostics right
+-- nr2char avoids encoding issues with nerd font glyphs in source files
+vim.diagnostic.config({
+  signs = {
+    priority = 198,
+    text = {
+      [vim.diagnostic.severity.ERROR] = vim.fn.nr2char(0xF057), -- fa-times-circle
+      [vim.diagnostic.severity.WARN]  = vim.fn.nr2char(0xF071), -- fa-exclamation-triangle
+      [vim.diagnostic.severity.INFO]  = vim.fn.nr2char(0xF05A), -- fa-info-circle
+      [vim.diagnostic.severity.HINT]  = vim.fn.nr2char(0xF0EB), -- fa-lightbulb-o
+    },
+  },
+})
 
 -- vim.lsp.config() declares the server configuration. vim.lsp.enable() then
 -- watches for matching filetypes and starts the server automatically.
