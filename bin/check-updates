@@ -19,11 +19,43 @@ ok()     { printf "\033[0;32m%s\033[0m\n" "$1"; }
 if $ENABLE_BREW; then
   header "Homebrew"
   brew update -q
-  OUTDATED=$(brew outdated --verbose)
-  if [[ -z "$OUTDATED" ]]; then
+
+  # Get outdated packages with versions and homepages (2 brew calls total)
+  INFO_JSON=$(mktemp)
+  OUTDATED_JSON=$(mktemp)
+  brew info --json=v2 --installed > "$INFO_JSON"
+  brew outdated --json=v2 > "$OUTDATED_JSON"
+
+  # Join outdated with info, output tab-separated fields
+  OUTDATED_LIST=$(jq -s -r '
+    def releases_url:
+      (.urls.stable.url // .urls.head.url // "") as $url |
+      if $url | test("github\\.com") then
+        $url | capture("github\\.com/(?<owner>[^/]+)/(?<repo>[^/]+)") | "https://github.com/\(.owner)/\(.repo)/releases"
+      else
+        .homepage // "N/A"
+      end;
+    .[1] as $outdated |
+    .[0] as $info |
+    ($outdated.formulae + $outdated.casks | map(.name)) as $names |
+    (($info.formulae | map(select([.name, .full_name] | any(. as $n | $names | index($n))))) +
+     ($info.casks | map(select(.token as $n | $names | index($n))))) |
+    unique_by(.name) |
+    sort_by(.name) |
+    .[] |
+    . as $pkg |
+    ($outdated.formulae + $outdated.casks | map(select(.name == $pkg.name or .name == $pkg.full_name)) | .[0]) as $outdated_info |
+    "\($outdated_info.name)\t\($outdated_info.installed_versions[0])\t\($outdated_info.current_version)\t\($pkg | releases_url)"
+  ' "$INFO_JSON" "$OUTDATED_JSON")
+
+  rm -f "$INFO_JSON" "$OUTDATED_JSON"
+
+  if [[ -z "$OUTDATED_LIST" ]]; then
     ok "Everything up to date"
   else
-    echo "$OUTDATED"
+    while IFS=$'\t' read -r name installed current releases; do
+      printf "%s (%s → %s) %s\n" "$name" "$installed" "$current" "$releases"
+    done <<< "$OUTDATED_LIST"
     if $UPGRADE; then
       header "Upgrading Homebrew packages"
       brew upgrade
