@@ -1,23 +1,9 @@
-# Debugging Notes
+# Dotfiles
 
-## Check Neovim option values headlessly
+Personal configuration files for macOS development environment.
 
-```sh
-nvim --headless -c 'set <option>?' -c 'qa' 2>&1
-```
+**Never commit sensitive files** (SSH keys, API tokens, credentials, etc.). If in doubt, ask before committing.
 
-## Plugin install location (vim.pack)
+## Neovim
 
-`~/.local/share/nvim/site/pack/core/opt/`
-
-## mini.nvim docs
-
-`~/.local/share/nvim/site/pack/core/opt/mini.nvim/doc/`
-
-e.g. `mini-ai.txt`, `mini-files.txt`, `mini-surround.txt` — read these directly instead of fetching from GitHub.
-
-## Neovim runtime help docs
-
-`~/.local/share/bob/nightly/share/nvim/runtime/doc/`
-
-e.g. `lsp.txt`, `options.txt`, `lua.txt` — authoritative source for the installed version.
+For debugging notes and reference paths, see `nvim/README.md`.

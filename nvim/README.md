@@ -32,7 +32,13 @@
   npm install -g typescript-language-server typescript
   ```
 
-## Troubleshooting
+## Debugging
+
+### Check option values headlessly
+
+```sh
+nvim --headless -c 'set <option>?' -c 'qa' 2>&1
+```
 
 ### Treesitter parsers recompiling on every startup
 
@@ -50,3 +56,9 @@ Symptoms: status line shows "Compiling parser" on startup; parsers like `rust` o
    ```sh
    nvim --headless -c 'lua require("nvim-treesitter").install({"rust", "zsh"})' -c 'sleep 120' -c 'qa'
    ```
+
+### Reference paths
+
+- **Neovim runtime help docs:** `~/.local/share/bob/nightly/share/nvim/runtime/doc/` (e.g. `lsp.txt`, `lua.txt`, `options.txt`)
+- **Plugin install location (vim.pack):** `~/.local/share/nvim/site/pack/core/opt/`
+- **mini.nvim docs:** `~/.local/share/nvim/site/pack/core/opt/mini.nvim/doc/` (e.g. `mini-ai.txt`, `mini-files.txt`, `mini-surround.txt`)
