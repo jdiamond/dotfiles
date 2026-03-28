@@ -304,6 +304,9 @@ miniclue.setup({
     -- `z` key
     { mode = "n", keys = "z" },
     { mode = "x", keys = "z" },
+
+    -- mini.basics option toggles (default \ prefix)
+    { mode = "n", keys = "\\" },
   },
   clues = {
     { mode = 'n', keys = '<leader>g', desc = '+Git' },
@@ -316,6 +319,8 @@ miniclue.setup({
     miniclue.gen_clues.square_brackets(),
     miniclue.gen_clues.windows(),
     miniclue.gen_clues.z(),
+    -- mini.basics toggles
+    { mode = 'n', keys = '\\', desc = '+Toggles' },
   },
   window = {
     delay = 500, -- milliseconds before popup appears
