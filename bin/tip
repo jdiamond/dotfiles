@@ -1,0 +1,65 @@
+#!/bin/zsh
+# Show a random tip from TIPS.md. Usage: tip [tool]
+
+set -e
+
+# Resolve symlink to find script's real location
+script_path="${0:A}"
+script_dir="${script_path:h}"
+tips_file="${script_dir:h}/TIPS.md"
+tool="${1:-}"
+
+if [[ ! -f "$tips_file" ]]; then
+	echo "Tips file not found: $tips_file"
+	exit 1
+fi
+
+# Extract a section (between ## headers) or the whole file
+if [[ -n "$tool" ]]; then
+	# Capitalize first letter for section matching
+	section="${(C)tool}"
+	# Print lines between section header and next section
+	content=$(awk -v sec="$section" '
+		/^## / { in_section = ($0 == "## " sec); next }
+		in_section { print }
+	' "$tips_file")
+	if [[ -z "$content" ]]; then
+		echo "No tips for: $tool"
+		echo "Sections: neovim, yazi, zsh, lazygit, general"
+		exit 1
+	fi
+	# Section is known, store it for display
+	current_section="$section"
+else
+	content=$(cat "$tips_file")
+	current_section=""
+fi
+
+# Parse tips: each tip is a ### heading followed by content until next ### or ##
+# Track which section each tip belongs to
+tips=()
+current_tip=""
+
+while IFS= read -r line; do
+	if [[ "$line" == "## "* ]]; then
+		current_section="${line#### }"
+	elif [[ "$line" == "### "* ]]; then
+		[[ -n "$current_tip" ]] && tips+=("$current_tip")
+		current_tip="${current_section}:${line##### }"
+	elif [[ -n "$current_tip" ]] && [[ "$line" != "" ]] && [[ "$line" != "---" ]]; then
+		current_tip+=$'\n'"$line"
+	fi
+done <<< "$content"
+[[ -n "$current_tip" ]] && tips+=("$current_tip")
+
+# Pick a random tip
+chosen="${tips[$((RANDOM % ${#tips[@]} + 1))]}"
+
+# Extract section, title, and body
+section="${chosen%%:*}"
+rest="${chosen#*:}"
+title="${rest%%$'\n'*}"
+body="${rest#*$'\n'}"
+
+printf '\033[1;36m[%s]\033[0m %s\n' "$section" "$title"
+[[ -n "$body" ]] && printf '%s\n' "$body"
