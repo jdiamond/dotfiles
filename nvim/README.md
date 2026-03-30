@@ -2,13 +2,7 @@
 
 ## Requirements
 
-- **Neovim 0.12+** — `vim.pack` (used for plugin loading) is a 0.12 API. Install via [bob](https://github.com/MordechaiHadad/bob):
-  ```sh
-  brew install bob
-  bob install nightly
-  bob use nightly
-  ```
-  Make sure `~/.local/share/bob/nvim-bin` is on your `PATH` before `/opt/homebrew/bin`, otherwise the Homebrew nvim (0.11.x) will shadow it.
+- **Neovim 0.12+** — `vim.pack` (used for plugin loading) is a 0.12 API.
 
 - **tree-sitter CLI** — required by nvim-treesitter to compile parsers. Note: this is `tree-sitter-cli`, not `tree-sitter` (which is just the library):
   ```sh
@@ -59,6 +53,6 @@ Symptoms: status line shows "Compiling parser" on startup; parsers like `rust` o
 
 ### Reference paths
 
-- **Neovim runtime help docs:** `~/.local/share/bob/nightly/share/nvim/runtime/doc/` (e.g. `lsp.txt`, `lua.txt`, `options.txt`)
+- **Neovim runtime help docs:** `/opt/homebrew/share/nvim/runtime/doc/` (e.g. `lsp.txt`, `lua.txt`, `options.txt`)
 - **Plugin install location (vim.pack):** `~/.local/share/nvim/site/pack/core/opt/`
 - **mini.nvim docs:** `~/.local/share/nvim/site/pack/core/opt/mini.nvim/doc/` (e.g. `mini-ai.txt`, `mini-files.txt`, `mini-surround.txt`)
