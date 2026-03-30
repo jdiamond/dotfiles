@@ -20,6 +20,7 @@ vim.pack.add({
   { src = 'https://github.com/catppuccin/nvim' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
+  { src = 'https://github.com/stevearc/conform.nvim' },
 })
 
 -- =============================================================================
@@ -151,6 +152,27 @@ require("mini.pairs").setup()
 
 -- mini.files: floating file explorer
 require("mini.files").setup()
+
+-- conform.nvim: external formatters (stylua, prettier, etc.)
+-- <leader>c to format, falls back to LSP formatting if no external formatter available
+require("conform").setup({
+  formatters_by_ft = {
+    bash = { "shfmt" },
+    javascript = { "prettier" },
+    javascriptreact = { "prettier" },
+    json = { "prettier" },
+    lua = { "stylua" },
+    markdown = { "prettier" },
+    sh = { "shfmt" },
+    typescript = { "prettier" },
+    typescriptreact = { "prettier" },
+    yaml = { "prettier" },
+  },
+  default_format_opts = {
+    lsp_format = "fallback",
+  },
+})
+vim.keymap.set("n", "<leader>c", function() require("conform").format() end, { desc = "Format" })
 
 -- mini.jump2d: easymotion-style jump to visible spots via label filtering
 -- <CR> to trigger, then type letters to filter down to target
