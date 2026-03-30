@@ -74,8 +74,7 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Highlights commands in real time (green = valid, red = not found, etc.).
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# bob manages multiple neovim versions.
-path=($HOME/.local/share/bob/nvim-bin $path)
+
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
