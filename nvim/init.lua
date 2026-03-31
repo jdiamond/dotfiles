@@ -286,7 +286,8 @@ vim.keymap.set("n", "<leader>ph", "<cmd>checkhealth vim.pack<CR>", { desc = "Hea
 
 vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 vim.keymap.set("n", "<leader>q",  ":quit<CR>",             { desc = "Quit" })
-vim.keymap.set("n", "<leader>f",  MiniPick.builtin.files,  { desc = "Find files" })
+vim.keymap.set("n", "<leader>b",  MiniPick.builtin.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>f",  MiniPick.builtin.files,   { desc = "Find files" })
 vim.keymap.set("n", "<leader>/",  MiniPick.builtin.grep_live, { desc = "Grep" })
 vim.keymap.set("n", "<leader>e",  MiniFiles.open,          { desc = "Explorer" })
 
