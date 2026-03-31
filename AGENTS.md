@@ -7,3 +7,7 @@ Personal configuration files for macOS development environment.
 ## Neovim
 
 For debugging notes and reference paths, see `nvim/README.md`.
+
+## Tips
+
+Tips for tools are stored in `TIPS.md`.
