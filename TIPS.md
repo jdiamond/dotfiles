@@ -57,6 +57,24 @@ From mini.basics. Works in normal and insert mode.
 ### `<leader>` is space
 The `mini.basics` setup sets leader to space if not already set. Easier to type than `\` or `,`.
 
+### `<leader>b` picks buffers, `<C-^>` toggles alternate
+`<leader>b` opens mini.pick's buffer picker. `<C-^>` (Ctrl+6) toggles between current and alternate buffer — faster than the picker for two-buffer switching.
+
+### `:vert help <topic>` opens help in vertical split
+By default `:help` splits horizontally, pushing your code down. Use `:vert help` to keep it side-by-side.
+
+### `<C-w>o` maximizes the current window
+Makes the current window the only one. No undo — other windows are closed, not hidden. Buffers remain, use `<C-^>` to switch back.
+
+### `:ls!` shows unlisted buffers
+Help buffers and plugin scratch buffers are unlisted by default. `:ls` only shows listed buffers; `:ls!` shows everything including help files.
+
+### Buffer = content, Window = viewport
+A buffer is file content in memory. A window is a viewport onto a buffer. One buffer can appear in multiple windows. Closing a window doesn't delete its buffer.
+
+### Sync `vim.pack` plugins to lockfile
+`vim.pack.update(nil, { target = 'lockfile' })` installs plugins at the revision specified in `nvim-pack-lock.json` — like `npm ci` for Neovim plugins. Use after pulling lockfile changes from another machine.
+
 ---
 
 ## Yazi
