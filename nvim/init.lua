@@ -282,6 +282,7 @@ vim.keymap.set('n', '<C-V>', save_pos_and_enter_visual(vim.api.nvim_replace_term
 vim.keymap.set('x', '<Esc>', exit_visual_and_restore_pos, { silent = true })
 
 vim.keymap.set("n", "<leader>pu", vim.pack.update,                 { desc = "Update plugins" })
+vim.keymap.set("n", "<leader>ps", function() vim.pack.update(nil, { target = 'lockfile' }) end, { desc = "Sync plugins to lockfile" })
 vim.keymap.set("n", "<leader>ph", "<cmd>checkhealth vim.pack<CR>", { desc = "Health check" })
 
 vim.keymap.set("n", "<leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
