@@ -66,7 +66,7 @@ fi # ENABLE_BREW
 # --- npm global ---
 if $ENABLE_NPM && command -v npm &>/dev/null; then
   header "npm (global)"
-  OUTDATED=$(npm outdated -g --long 2>/dev/null)
+  OUTDATED=$(npm outdated -g --long --min-release-age=0 2>/dev/null)
   if [[ -z "$OUTDATED" ]]; then
     ok "Everything up to date"
   else
