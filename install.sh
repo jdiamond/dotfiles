@@ -31,3 +31,6 @@ for ((i=0; i<${#links[@]}; i+=2)); do
     echo "Linked: $dst -> $src"
   fi
 done
+
+# Tool-specific setups
+"$DOTFILES/npm/install.sh"

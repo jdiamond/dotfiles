@@ -1,0 +1,10 @@
+# Block postinstall/preinstall scripts
+ignore-scripts=true
+
+# Only install packages published at least 7 days ago
+min-release-age=7
+
+# Save exact versions in package.json (no ^ or ~ prefixes)
+save-exact=true
+
+# Auth tokens
