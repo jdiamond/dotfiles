@@ -53,9 +53,9 @@ if $ENABLE_BREW; then
   if [[ -z "$OUTDATED_LIST" ]]; then
     ok "Everything up to date"
   else
-    while IFS=$'\t' read -r name installed current releases; do
-      printf "%s (%s → %s) %s\n" "$name" "$installed" "$current" "$releases"
-    done <<< "$OUTDATED_LIST"
+    { printf "NAME\tCURRENT\tLATEST\tURL\n"; while IFS=$'\t' read -r name installed current releases; do
+        printf "%s\t%s\t%s\t%s\n" "$name" "$installed" "$current" "$releases"
+      done <<< "$OUTDATED_LIST"; } | column -t -s $'\t'
     if $UPGRADE; then
       header "Upgrading Homebrew packages"
       brew upgrade
@@ -66,11 +66,14 @@ fi # ENABLE_BREW
 # --- npm global ---
 if $ENABLE_NPM && command -v npm &>/dev/null; then
   header "npm (global)"
-  OUTDATED=$(npm outdated -g --long --min-release-age=0 2>/dev/null)
-  if [[ -z "$OUTDATED" ]]; then
+  OUTDATED=$(npm outdated -g --json --long --min-release-age=0 2>/dev/null)
+  if [[ -z "$OUTDATED" || "$OUTDATED" == "{}" ]]; then
     ok "Everything up to date"
   else
-    echo "$OUTDATED"
+    { printf "NAME\tCURRENT\tLATEST\tURL\n"
+      echo "$OUTDATED" | jq -r 'to_entries | sort_by(.key) | .[] | "\(.key)\t\(.value.current)\t\(.value.latest)\t\(.value.homepage // "N/A")"' | while IFS=$'\t' read -r name current latest homepage; do
+        printf "%s\t%s\t%s\t%s\n" "$name" "$current" "$latest" "$homepage"
+      done; } | column -t -s $'\t'
     if $UPGRADE; then
       header "Upgrading npm global packages"
       npm update -g
