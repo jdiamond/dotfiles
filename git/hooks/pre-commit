@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Prevent committing npm auth tokens
+if git diff --cached --name-only | grep -q "^npm/npmrc$"; then
+  if git show :npm/npmrc | grep -q "^//"; then
+    echo "ERROR: npm/npmrc contains auth tokens. Run 'npm logout' or remove the '//' lines." >&2
+    exit 1
+  fi
+fi

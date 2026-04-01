@@ -11,9 +11,11 @@ links=(
   "$DOTFILES/ghostty/config"     "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
   "$DOTFILES/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
   "$DOTFILES/lazygit/themes"     "$HOME/Library/Application Support/lazygit/themes"
-  "$DOTFILES/nvim"               "$HOME/.config/nvim"
-  "$DOTFILES/yazi"               "$HOME/.config/yazi"
-  "$DOTFILES/zsh/zshrc"          "$HOME/.zshrc"
+  "$DOTFILES/git/hooks/pre-commit" "$DOTFILES/.git/hooks/pre-commit"
+  "$DOTFILES/npm/npmrc"            "$HOME/.npmrc"
+  "$DOTFILES/nvim"                 "$HOME/.config/nvim"
+  "$DOTFILES/yazi"                 "$HOME/.config/yazi"
+  "$DOTFILES/zsh/zshrc"            "$HOME/.zshrc"
 )
 
 for ((i=0; i<${#links[@]}; i+=2)); do
@@ -32,5 +34,3 @@ for ((i=0; i<${#links[@]}; i+=2)); do
   fi
 done
 
-# Tool-specific setups
-"$DOTFILES/npm/install.sh"

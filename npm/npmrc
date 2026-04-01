@@ -7,4 +7,3 @@ min-release-age=7
 # Save exact versions in package.json (no ^ or ~ prefixes)
 save-exact=true
 
-# Auth tokens
