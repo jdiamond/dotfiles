@@ -75,6 +75,15 @@ A buffer is file content in memory. A window is a viewport onto a buffer. One bu
 ### Sync `vim.pack` plugins to lockfile
 `vim.pack.update(nil, { target = 'lockfile' })` installs plugins at the revision specified in `nvim-pack-lock.json` — like `npm ci` for Neovim plugins. Use after pulling lockfile changes from another machine.
 
+### `:InspectTree` shows treesitter parse tree
+Opens a vertical split with the full syntax tree. Press `a` to toggle anonymous nodes, `I` for source language, `o` for query editor. Jump to nodes with Enter.
+
+### Check filetype with `:set filetype?`
+Shows the current buffer's filetype. Useful when debugging why treesitter or ftplugins aren't working as expected.
+
+### Buffer-local mappings override global ones
+Filetypes like `nvim-pack` define their own `]]`/`[[` mappings that take precedence over your treesitter textobjects. Check the ftplugin source in `$VIMRUNTIME/ftplugin/` when mappings behave unexpectedly.
+
 ---
 
 ## Yazi
