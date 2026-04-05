@@ -1,4 +1,9 @@
 [[mgr.prepend_keymap]]
+on   = "<C-g>"
+run  = 'shell "ghostty-tab --cwd \"$(dirname %h)\" lazygit"'
+desc = "Open lazygit in a new Ghostty tab"
+
+[[mgr.prepend_keymap]]
 on   = "T"
 run  = "plugin toggle-pane min-preview"
 desc = "Show or hide the preview pane"

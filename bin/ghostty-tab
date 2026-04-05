@@ -1,0 +1,41 @@
+#!/bin/bash
+# Open a new Ghostty tab with a command in the specified directory
+# Usage: ghostty-tab [--cwd <dir>] <command...>
+
+cwd=""
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --cwd)
+      cwd="$2"
+      shift 2
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [ $# -eq 0 ]; then
+  echo "Usage: ghostty-tab [--cwd <dir>] <command...>" >&2
+  exit 1
+fi
+
+cmd="$*"
+
+if [ -n "$cwd" ]; then
+  osascript -e 'tell application "Ghostty"' \
+    -e 'set cfg to new surface configuration' \
+    -e "set initial working directory of cfg to \"$cwd\"" \
+    -e "set initial input of cfg to \"$cmd\" & (ASCII character 10)" \
+    -e 'new tab in front window with configuration cfg' \
+    -e 'end tell'
+else
+  osascript -e 'tell application "Ghostty"' \
+    -e 'set currentTerm to focused terminal of selected tab of front window' \
+    -e 'set cwd to working directory of currentTerm' \
+    -e 'set cfg to new surface configuration' \
+    -e 'set initial working directory of cfg to cwd' \
+    -e "set initial input of cfg to \"$cmd\" & (ASCII character 10)" \
+    -e 'new tab in front window with configuration cfg' \
+    -e 'end tell'
+fi

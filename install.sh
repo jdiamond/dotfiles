@@ -7,6 +7,7 @@ links=(
   "$DOTFILES/bat/config"         "$HOME/.config/bat/config"
   "$DOTFILES/bat/themes"         "$HOME/.config/bat/themes"
   "$DOTFILES/bin/check-updates"  "$HOME/.local/bin/check-updates"
+  "$DOTFILES/bin/ghostty-tab"   "$HOME/.local/bin/ghostty-tab"
   "$DOTFILES/bin/tip"            "$HOME/.local/bin/tip"
   "$DOTFILES/ghostty/config"     "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
   "$DOTFILES/lazygit/config.yml" "$HOME/Library/Application Support/lazygit/config.yml"
