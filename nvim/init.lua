@@ -21,6 +21,7 @@ vim.pack.add({
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
   { src = 'https://github.com/stevearc/conform.nvim' },
+  { src = 'https://github.com/yorickpeterse/nvim-jump' },
 })
 
 -- =============================================================================
@@ -179,9 +180,9 @@ require("conform").setup({
 })
 vim.keymap.set("n", "<leader>c", function() require("conform").format() end, { desc = "Format" })
 
--- mini.jump2d: easymotion-style jump to visible spots via label filtering
--- <CR> to trigger, then type letters to filter down to target
-require("mini.jump2d").setup()
+-- nvim-jump: type to search, press label to jump (less noisy than mini.jump2d)
+require('jump').setup({ labels = 'uhetonasidpgyfcrlkbmjwvqxz' })
+vim.keymap.set({ 'n', 'x', 'o' }, '<CR>', require('jump').start, {})
 
 -- =============================================================================
 -- LSP
