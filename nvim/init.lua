@@ -111,7 +111,23 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- ]] / [[ to jump between functions using treesitter-textobjects
+local tst = require("nvim-treesitter-textobjects.select")
 local tsm = require("nvim-treesitter-textobjects.move")
+local tso_mode = { 'x', 'o' }
+vim.keymap.set(tso_mode, 'am', function() tst.select_textobject('@function.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'im', function() tst.select_textobject('@function.inner', 'textobjects') end)
+vim.keymap.set(tso_mode, 'al', function() tst.select_textobject('@class.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'il', function() tst.select_textobject('@class.inner', 'textobjects') end)
+vim.keymap.set(tso_mode, 'ab', function() tst.select_textobject('@block.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'ib', function() tst.select_textobject('@block.inner', 'textobjects') end)
+vim.keymap.set(tso_mode, 'ad', function() tst.select_textobject('@conditional.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'id', function() tst.select_textobject('@conditional.inner', 'textobjects') end)
+vim.keymap.set(tso_mode, 'ao', function() tst.select_textobject('@loop.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'io', function() tst.select_textobject('@loop.inner', 'textobjects') end)
+vim.keymap.set(tso_mode, 'aa', function() tst.select_textobject('@parameter.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'ia', function() tst.select_textobject('@parameter.inner', 'textobjects') end)
+vim.keymap.set(tso_mode, 'af', function() tst.select_textobject('@call.outer', 'textobjects') end)
+vim.keymap.set(tso_mode, 'if', function() tst.select_textobject('@call.inner', 'textobjects') end)
 vim.keymap.set({'n', 'x', 'o'}, ']]', function() tsm.goto_next_start({ "@class.outer", "@function.outer" }) end)
 vim.keymap.set({'n', 'x', 'o'}, '[[', function() tsm.goto_previous_start({ "@class.outer", "@function.outer" }) end)
 
@@ -129,17 +145,6 @@ require("mini.git").setup()
 
 -- mini.pick: fuzzy finder for files, buffers, grep, etc.
 require("mini.pick").setup()
-
--- mini.ai: extended text objects (viq for quotes, vif for function, etc.)
--- F = function definition (outer/inner) via treesitter-textobjects queries
-require("mini.ai").setup({
-  custom_textobjects = {
-    F = require("mini.ai").gen_spec.treesitter({
-      a = '@function.outer',
-      i = '@function.inner',
-    }),
-  },
-})
 
 -- mini.surround: add/delete/replace surrounding chars (sa", sd", sr"')
 require("mini.surround").setup()

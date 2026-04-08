@@ -9,6 +9,18 @@ Random tips for tools I use daily. View a random tip with `tip` or `tip <tool>`.
 ### `]]` and `[[` jump between functions and headers
 Uses treesitter-textobjects. Works for functions/classes in code, and headers in markdown. Jump forward with `]]`, backward with `[[`.
 
+### `v{textobject}p` swaps selection with clipboard
+Visual-mode `p` replaces the selection with your clipboard and yanks the replaced text. With `clipboard=unnamedplus`, `viwp`, `vafp`, or `vanp` effectively swap the selected text with your system clipboard.
+
+### `an` / `in` expand or narrow Treesitter node selection
+In visual mode, `an` selects the parent (outer) syntax node and can be repeated to keep expanding. `in` selects the inner node. Useful for growing a selection from expression to argument to call to function.
+
+### `am` / `im` select outer or inner function
+Custom Treesitter textobjects: `am` selects the whole function, `im` selects just the inner body/content. Works with operators too: `yam`, `dim`, `cam`.
+
+### More Treesitter textobjects: class, block, parameter, call
+Sample-style bindings from `nvim-treesitter-textobjects`: `al` / `il` for class, `ab` / `ib` for block, `aa` / `ia` for parameter, `af` / `if` for call.
+
 ### `K` shows hover documentation
 Press once to show hover popup, press `K` again to focus it, press `q` to close. Or just navigate away to dismiss.
 
@@ -29,9 +41,6 @@ Press Enter, then type letters to jump to any visible spot. Easymotion-style nav
 
 ### mini.surround operators
 `sa` add (e.g., `saiw"` surrounds word with quotes), `sd` delete (e.g., `sd"` removes quotes), `sr` replace (e.g., `sr"'` changes quotes to single).
-
-### mini.ai custom textobjects
-`vif` / `viF` for inner/outer function, `viq` for inner quote (works with any quote type).
 
 ### `<C-x>` triggers builtin completion
 In insert mode, `<C-x>` pauses to show completion sources: `<C-x><C-f>` for files, `<C-x><C-l>` for lines, etc. mini.clue shows options.
