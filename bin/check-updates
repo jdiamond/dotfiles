@@ -29,7 +29,7 @@ if $ENABLE_BREW; then
   # Join outdated with info, output tab-separated fields
   OUTDATED_LIST=$(jq -s -r '
     def releases_url:
-      (.urls.stable.url // .urls.head.url // "") as $url |
+      (.urls.stable.url // .urls.head.url // .url // "") as $url |
       if $url | test("github\\.com") then
         $url | capture("github\\.com/(?<owner>[^/]+)/(?<repo>[^/]+)") | "https://github.com/\(.owner)/\(.repo)/releases"
       else
@@ -37,14 +37,19 @@ if $ENABLE_BREW; then
       end;
     .[1] as $outdated |
     .[0] as $info |
-    ($outdated.formulae + $outdated.casks | map(.name)) as $names |
-    (($info.formulae | map(select([.name, .full_name] | any(. as $n | $names | index($n))))) +
-     ($info.casks | map(select(.token as $n | $names | index($n))))) |
-    unique_by(.name) |
-    sort_by(.name) |
+    ($outdated.formulae | map(.name)) as $formula_names |
+    ($outdated.casks | map(.name)) as $cask_names |
+    # Match formulae by name/full_name, casks by token
+    (($info.formulae | map(select([.name, .full_name] | any(. as $n | $formula_names | index($n))) | . + {_type: "formula"})) +
+     ($info.casks | map(select(.token as $n | $cask_names | index($n)) | . + {_type: "cask"}))) |
+    sort_by(.name // .token) |
     .[] |
     . as $pkg |
-    ($outdated.formulae + $outdated.casks | map(select(.name == $pkg.name or .name == $pkg.full_name)) | .[0]) as $outdated_info |
+    (if $pkg._type == "formula" then
+       ($outdated.formulae | map(select(.name == $pkg.name or .name == $pkg.full_name)) | .[0])
+     else
+       ($outdated.casks | map(select(.name == $pkg.token)) | .[0])
+     end) as $outdated_info |
     "\($outdated_info.name)\t\($outdated_info.installed_versions[0])\t\($outdated_info.current_version)\t\($pkg | releases_url)"
   ' "$INFO_JSON" "$OUTDATED_JSON")
 
