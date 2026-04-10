@@ -16,6 +16,7 @@ links=(
   "$DOTFILES/npm/npmrc"            "$HOME/.npmrc"
   "$DOTFILES/nvim"                 "$HOME/.config/nvim"
   "$DOTFILES/yazi"                 "$HOME/.config/yazi"
+  "$DOTFILES/television/config.toml" "$HOME/.config/television/config.toml"
   "$DOTFILES/zsh/zshrc"            "$HOME/.zshrc"
 )
 
