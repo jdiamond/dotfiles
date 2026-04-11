@@ -1,21 +1,10 @@
 #!/bin/bash
+
 set -e
 
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 
-links=(
-  "$DOTFILES/bat/*" "$HOME/.config/bat"
-  "$DOTFILES/bin/*" "$HOME/.local/bin"
-  "$DOTFILES/ghostty/config" "$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-  "$DOTFILES/git/hooks/pre-commit" "$DOTFILES/.git/hooks/pre-commit"
-  "$DOTFILES/lazygit/*" "$HOME/Library/Application Support/lazygit"
-  "$DOTFILES/npm/npmrc" "$HOME/.npmrc"
-  "$DOTFILES/nvim" "$HOME/.config/nvim"
-  "$DOTFILES/television/config.toml" "$HOME/.config/television/config.toml"
-  "$DOTFILES/television/cable/*" "$HOME/.config/television/cable"
-  "$DOTFILES/yazi" "$HOME/.config/yazi"
-  "$DOTFILES/zsh/zshrc" "$HOME/.zshrc"
-)
+source "$DOTFILES/links.conf"
 
 for ((i = 0; i < ${#links[@]}; i += 2)); do
   src="${links[i]}"
@@ -94,4 +83,3 @@ for ((i = 0; i < ${#links[@]}; i += 2)); do
     fi
   fi
 done
-
