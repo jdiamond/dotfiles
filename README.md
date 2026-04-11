@@ -28,9 +28,9 @@ Orphan symlinks are automatically removed for `/*` and `/**` patterns.
 
 ## Status output
 
-| Symbol | Meaning |
-|--------|---------|
-| `=` | Already linked |
-| `+` | Newly linked |
-| `-` | Orphan removed |
-| `✗` | Error (file exists, not a symlink) |
+| Symbol | Meaning                            |
+| ------ | ---------------------------------- |
+| `=`    | Already linked                     |
+| `+`    | Newly linked                       |
+| `-`    | Orphan removed                     |
+| `✗`    | Error (file exists, not a symlink) |
