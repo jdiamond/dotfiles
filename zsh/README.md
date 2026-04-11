@@ -1,6 +1,6 @@
 # Zsh Config
 
-`zshrc` is symlinked to `~/.zshrc` by `install.sh`.
+`zshrc` is symlinked to `~/.zshrc` by `sync.sh`.
 
 ## Local overrides
 
