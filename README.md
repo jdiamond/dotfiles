@@ -15,17 +15,16 @@ Links files from this directory to their destinations. Safe to run multiple time
 Edit `links.conf` to add or remove links:
 
 ```
-"$DOTFILES/nvim" "$HOME/.config/nvim"
-"$DOTFILES/television/cable/*" "$HOME/.config/television/cable"
+nvim:~/.config/nvim
+bat/*:~/.config/bat
+television/**:~/.config/television
 ```
 
-### Link patterns
+Paths are colon-separated. Source is relative to dotfiles directory.
+Destination uses `~` for home or `/` for absolute.
 
-| Pattern | Behavior |
-|---------|----------|
-| (none) | Direct link (file or directory) |
-| `/*` | Link all items in directory, remove orphaned symlinks |
-| `/**` | Recursive link, preserve directory structure |
+Append `/*` to link directory contents, or `/**` for recursive linking.
+Orphan symlinks are automatically removed for `/*` and `/**` patterns.
 
 ## Status output
 

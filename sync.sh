@@ -3,7 +3,14 @@
 set -e
 
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
-source "$DOTFILES/links.conf"
+
+links=()
+while IFS=: read -r src dst || [[ -n "$src" ]]; do
+  [[ "$src" =~ ^[[:space:]]*# ]] && continue
+  [[ -z "$src" ]] && continue
+  dst="${dst/#\~/$HOME}"
+  links+=("$DOTFILES/$src" "$dst")
+done < "$DOTFILES/links.conf"
 
 # Colors
 RED='\033[0;31m'
@@ -15,7 +22,7 @@ RESET='\033[0m'
 
 # Format path for display
 fmt_src() {
-  echo "${1#$DOTFILES/}"
+  echo "${1#"$DOTFILES"/}"
 }
 
 fmt_dst() {
