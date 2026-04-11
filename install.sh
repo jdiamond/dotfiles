@@ -35,7 +35,7 @@ for ((i = 0; i < ${#links[@]}; i += 2)); do
     mkdir -p "$dst"
     if [[ "$pattern" == "**" ]]; then
       find "$src_dir" -type f | while read -r f; do
-        relpath="${f#$src_dir/}"
+        relpath="${f#"$src_dir"/}"
         dst_path="$dst/$relpath"
         src_path="$src_dir/$relpath"
         mkdir -p "$(dirname "$dst_path")"
