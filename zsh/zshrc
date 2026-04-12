@@ -68,6 +68,14 @@ function y() {
 # cd replacement with jump history.
 (( ${+commands[zoxide]} )) && source <(zoxide init zsh)
 
+# zoxide with tv instead of fzf.
+function zt() {
+  local result=$(tv zoxide)
+  if [[ -n "$result" ]]; then
+    z "${result:P}"
+  fi
+}
+
 # Suggests commands as you type based on history.
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
