@@ -72,7 +72,9 @@ function y() {
 function zt() {
   local result=$(tv zoxide)
   if [[ -n "$result" ]]; then
-    z "${result:P}"
+	# tv displays paths with ~ prefix (see television/cable/zoxide.toml),
+	# so we must restore the full path before passing to z.
+    z "${result/#\~/$HOME}"
   fi
 }
 

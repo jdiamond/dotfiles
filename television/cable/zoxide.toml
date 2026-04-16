@@ -4,15 +4,19 @@ description = "Browse zoxide directory history"
 requirements = ["zoxide"]
 
 [source]
-command = "zoxide query -l"
+# Replace $HOME prefix with ~ so paths are less repetitive in the list.
+command = "zoxide query -l | sed \"s|^$HOME|~|\""
 no_sort = true
 frecency = false
 
 [preview]
-# command = "ls -la --color=always '{}'"
-command = "eza -la --color=always '{}'"
+# tv substitutes {} as a literal string, so ~ is never shell-expanded.
+# bash -c lets us use ${1/#~/$HOME} to restore the full path before passing
+# it to eza. The path is passed as $1 via -- '{}' to safely handle spaces.
+command = "bash -c 'eza -la --color=always \"${1/#~/$HOME}\"' -- '{}'"
 
 [actions.remove]
 description = "Remove the selected directory from zoxide"
-command = "zoxide remove '{}'"
+# Same ~ → $HOME expansion needed here as in the preview command.
+command = "bash -c 'zoxide remove \"${1/#~/$HOME}\"' -- '{}'"
 mode = "fork"
