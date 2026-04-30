@@ -331,6 +331,10 @@ miniclue.setup({
     -- Window commands
     { mode = "n", keys = "<C-w>" },
 
+    -- `s` key (mini.surround)
+    { mode = "n", keys = "s" },
+    { mode = "x", keys = "s" },
+
     -- `z` key
     { mode = "n", keys = "z" },
     { mode = "x", keys = "z" },
