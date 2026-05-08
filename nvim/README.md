@@ -26,6 +26,12 @@
   npm install -g typescript-language-server typescript
   ```
 
+- **JSON language server** — JSON / JSONC diagnostics:
+  The Neovim config runs the `vscode-json-language-server` executable, which is provided by:
+  ```sh
+  npm install -g vscode-langservers-extracted
+  ```
+
 ## Debugging
 
 ### Check option values headlessly
