@@ -6,7 +6,6 @@ requirements = ["zoxide"]
 [source]
 # Replace $HOME prefix with ~ so paths are less repetitive in the list.
 command = "zoxide query -l | sed \"s|^$HOME|~|\""
-no_sort = true
 frecency = false
 
 [preview]
