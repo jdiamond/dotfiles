@@ -17,6 +17,11 @@ zstyle ':completion:*' menu select
 # Load the terminfo module to get key sequences by name.
 zmodload zsh/terminfo
 
+# Use emacs-style line editing regardless of inherited EDITOR/VISUAL.
+# zsh defaults to vi bindings when EDITOR/VISUAL contains "vi" (e.g. nvim),
+# which makes Ctrl+A/Ctrl+E insert literal control characters in child shells.
+bindkey -e
+
 # Bind Shift-Tab to cycle backwards through completions.
 bindkey "${terminfo[kcbt]}" reverse-menu-complete
 
