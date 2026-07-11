@@ -55,6 +55,16 @@ alias v='nvim'
 alias vc='nvim ~/.config'
 alias vz='nvim ~/.zshrc'
 
+# Portal TUI for local git repos
+p() {
+    local handoff_file="$(mktemp)"
+    portal --handoff "$handoff_file" "$@"
+    if [ -s "$handoff_file" ]; then
+        source "$handoff_file"
+    fi
+    rm -f "$handoff_file"
+}
+
 # Wrapper around yazi that changes the shell's cwd to wherever yazi exits in.
 function y() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
@@ -89,8 +99,6 @@ source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # Highlights commands in real time (green = valid, red = not found, etc.).
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-
-
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 path=($PNPM_HOME $path)
@@ -106,3 +114,4 @@ typeset -U path
 
 # Load secrets (not tracked in git).
 [[ -f ~/.zshrc.secrets ]] && source ~/.zshrc.secrets
+
