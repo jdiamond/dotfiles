@@ -71,7 +71,7 @@ fi # ENABLE_BREW
 # --- npm global ---
 if $ENABLE_NPM && command -v npm &>/dev/null; then
   header "npm (global)"
-  OUTDATED=$(npm outdated -g --json --long --min-release-age=0 2>/dev/null)
+  OUTDATED=$(npm outdated -g --json --long 2>/dev/null | jq 'del(.npm)' 2>/dev/null)
   if [[ -z "$OUTDATED" || "$OUTDATED" == "{}" ]]; then
     ok "Everything up to date"
   else
@@ -81,7 +81,9 @@ if $ENABLE_NPM && command -v npm &>/dev/null; then
       done; } | column -t -s $'\t'
     if $UPGRADE; then
       header "Upgrading npm global packages"
-      npm update -g
+      echo "$OUTDATED" | jq -r 'keys | .[]' | while read -r pkg; do
+        npm install -g "$pkg@latest"
+      done
     fi
   fi
 fi # ENABLE_NPM

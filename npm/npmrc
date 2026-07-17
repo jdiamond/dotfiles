@@ -4,6 +4,9 @@ ignore-scripts=true
 # Only install packages published at least 7 days ago
 min-release-age=7
 
+# Except for these
+min-release-age-exclude[]=@earendil-works/pi-coding-agent
+
 # Save exact versions in package.json (no ^ or ~ prefixes)
 save-exact=true
 
