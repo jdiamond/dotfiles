@@ -1,6 +1,6 @@
 # lazygit user config
 
-git:
-  pagers:
-    - externalDiffCommand: difft --color=always
-
+# git:
+#   diffRenderers:
+#     - command: difft --color=always
+#       type: extDiff
