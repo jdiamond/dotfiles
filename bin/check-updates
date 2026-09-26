@@ -7,6 +7,10 @@ ENABLE_BREW=true
 ENABLE_NPM=true
 ENABLE_BOB=false
 
+# npm packages to omit from checks/upgrades, and packages to track within a version range.
+NPM_SKIP=(npm corepack)
+NPM_PIN=(typescript@6)
+
 UPGRADE=false
 if [[ "$1" == "--upgrade" || "$1" == "-u" ]]; then
   UPGRADE=true
@@ -71,7 +75,30 @@ fi # ENABLE_BREW
 # --- npm global ---
 if $ENABLE_NPM && command -v npm &>/dev/null; then
   header "npm (global)"
-  OUTDATED=$(npm outdated -g --json --long 2>/dev/null | jq 'del(.npm, .corepack)' 2>/dev/null)
+  NPM_OUTDATED=$(npm outdated -g --json --long 2>/dev/null)
+  OUTDATED=$(echo "$NPM_OUTDATED" | jq --arg skip "${NPM_SKIP[*]}" --arg pins "${NPM_PIN[*]}" '
+    (($skip | split(" ")) + ($pins | split(" ") | map(sub("@[^@]*$"; "")))) as $excluded |
+    with_entries(select(.key as $pkg | ($excluded | index($pkg)) == null))
+  ' 2>/dev/null)
+
+  # npm outdated compares against the dist-tag, so query each pin's range to
+  # find newer releases within it instead of missing them behind a newer major.
+  for pin in "${NPM_PIN[@]}"; do
+    pkg="${pin%@*}"
+    current=$(echo "$NPM_OUTDATED" | jq -r --arg pkg "$pkg" '.[$pkg].current // empty' 2>/dev/null)
+    pinned_latest=$(npm view "$pin" version --json 2>/dev/null | jq -r 'if type == "array" then last else . end' 2>/dev/null)
+    if [[ -z "$current" || -z "$pinned_latest" || "$current" == "$pinned_latest" || "${current%%.*}" != "${pinned_latest%%.*}" || " ${NPM_SKIP[*]} " == *" $pkg "* ]]; then
+      continue
+    fi
+    PINNED_OUTDATED=$(echo "$NPM_OUTDATED" | jq --arg pkg "$pkg" --arg version "$pinned_latest" '
+      if .[$pkg] then {($pkg): (.[$pkg] | .latest = $version)} else {} end
+    ' 2>/dev/null)
+    if [[ -n "$PINNED_OUTDATED" && "$PINNED_OUTDATED" != "{}" ]]; then
+      [[ -n "$OUTDATED" ]] || OUTDATED='{}'
+      OUTDATED=$(jq -n --argjson outdated "$OUTDATED" --argjson pinned "$PINNED_OUTDATED" '$outdated * $pinned' 2>/dev/null)
+    fi
+  done
+
   if [[ -z "$OUTDATED" || "$OUTDATED" == "{}" ]]; then
     ok "Everything up to date"
   else
@@ -82,7 +109,14 @@ if $ENABLE_NPM && command -v npm &>/dev/null; then
     if $UPGRADE; then
       header "Upgrading npm global packages"
       echo "$OUTDATED" | jq -r 'keys | .[]' | while read -r pkg; do
-        npm install -g "$pkg@latest"
+        install_spec="$pkg@latest"
+        for pin in "${NPM_PIN[@]}"; do
+          if [[ "${pin%@*}" == "$pkg" ]]; then
+            install_spec="$pin"
+            break
+          fi
+        done
+        npm install -g "$install_spec"
       done
     fi
   fi
