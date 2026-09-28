@@ -5,18 +5,22 @@ local function entry(st, job)
 	local R = rt.mgr.ratio
 	job = type(job) == "string" and { args = { job } } or job
 
-	st.parent = st.parent or R.parent
-	st.current = st.current or R.current
-	st.preview = st.preview or R.preview
+	local panes = { parent = 1, current = 2, preview = 3 }
+	st.parent = st.parent or R[1]
+	st.current = st.current or R[2]
+	st.preview = st.preview or R[3]
 
 	local act, to = string.match(job.args[1] or "", "(.-)-(.+)")
-	if act == "min" then
-		st[to] = st[to] == R[to] and 0 or R[to]
-	elseif act == "max" then
-		local max = st[to] == 65535 and R[to] or 65535
-		st.parent = st.parent == 65535 and R.parent or st.parent
-		st.current = st.current == 65535 and R.current or st.current
-		st.preview = st.preview == 65535 and R.preview or st.preview
+	local index = panes[to]
+	if act == "min" and index then
+		st[to] = st[to] == R[index] and 0 or R[index]
+	elseif act == "max" and index then
+		local max = st[to] == 65535 and R[index] or 65535
+		for name, pane_index in pairs(panes) do
+			if name ~= to then
+				st[name] = st[name] == 65535 and R[pane_index] or st[name]
+			end
+		end
 		st[to] = max
 	end
 
