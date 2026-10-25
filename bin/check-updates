@@ -67,7 +67,7 @@ if $ENABLE_BREW; then
       done <<< "$OUTDATED_LIST"; } | column -t -s $'\t'
     if $UPGRADE; then
       header "Upgrading Homebrew packages"
-      brew upgrade
+      brew upgrade --no-ask
     fi
   fi
 fi # ENABLE_BREW
