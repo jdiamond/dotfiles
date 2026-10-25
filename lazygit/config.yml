@@ -1,5 +1,8 @@
 # lazygit user config
 
+# Skip the confirmation prompt after subprocesses (including the file editor) exit.
+promptToReturnFromSubprocess: false
+
 # git:
 #   diffRenderers:
 #     - command: difft --color=always
