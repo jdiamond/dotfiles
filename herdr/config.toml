@@ -7,3 +7,15 @@ agent_panel_sort = "priority"
 
 [ui.sidebar.agents]
 rows = [["state_icon", "workspace", "tab"], ["agent", "state_text"]]
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "shell"
+command = "code ."
+description = "Open VS Code here"
+
+[[keys.command]]
+key = "prefix+y"
+type = "pane"
+command = "yazi"
+description = "Browse files with Yazi"
