@@ -97,6 +97,9 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export PNPM_HOME="$HOME/Library/pnpm"
 path=($PNPM_HOME $path)
 
+# Vite+ bin (https://viteplus.dev)
+[[ -f "$HOME/.config/vite-plus/env" ]] && source "$HOME/.config/vite-plus/env"
+
 # Must be last so local binaries take precedence.
 path=($HOME/.local/bin $path)
 
@@ -108,4 +111,3 @@ typeset -U path
 
 # Load secrets (not tracked in git).
 [[ -f ~/.zshrc.secrets ]] && source ~/.zshrc.secrets
-
